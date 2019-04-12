@@ -6,7 +6,7 @@
   position: fixed;
   width: 100%;
   z-index: 2;
-  background-color: rgba(134, 134, 134, 0.35);
+  background-color: #ffffff;
 }
 
 .headerMenuLogo {

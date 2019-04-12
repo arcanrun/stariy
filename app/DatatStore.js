@@ -7,12 +7,12 @@ class DataStore extends Store {
     super(settings);
 
     // initialize with todos or empty array
-    this.todos = this.get('todos') || [];
+    this.airbases = this.get('airbases') || [];
   }
 
-  saveTodos() {
+  saveAsJson() {
     // save todos to JSON file
-    this.set('todos', this.todos);
+    this.set('airbases', this.airbases);
 
     // returning 'this' allows method chaining
     return this;
@@ -20,23 +20,23 @@ class DataStore extends Store {
 
   getAll() {
     // set object's todos to todos in JSON file
-    this.todos = this.get('airplanes') || [];
+    this.airbases = this.get('airbases') || [];
 
     return this;
   }
 
-  addTodo(todo) {
+  add(airbase) {
     // merge the existing todos with the new todo
-    this.todos = [...this.todos, todo];
+    this.airbases = [...this.airbases, airbase];
 
-    return this.saveTodos();
+    return this.saveAsJson();
   }
 
   deleteTodo(todo) {
     // filter out the target todo
-    this.todos = this.todos.filter(t => t !== todo);
+    this.airbases = this.airbases.filter(t => t !== todo);
 
-    return this.saveTodos();
+    return this.saveAsJson();
   }
 }
 
