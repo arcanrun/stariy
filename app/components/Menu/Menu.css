@@ -1,0 +1,42 @@
+.menu {
+  transition: 0.4s;
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  top: 0;
+  left: 0;
+}
+.menuVisible {
+  left: 0;
+}
+.menuHidden {
+  left: -120%;
+}
+.menuList {
+  position: relative;
+  text-transform: uppercase;
+  list-style-type: none;
+  margin-left: -40px;
+  font-weight: bold;
+}
+.menuItem {
+  transition: 0.2s;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 10px;
+}
+.menuItem:hover {
+  font-size: 30px;
+}
+.menuItem:active {
+  font-size: 29px;
+  color: #ffffff71;
+}
+.cross {
+  cursor: pointer;
+  font-size: 25px;
+}

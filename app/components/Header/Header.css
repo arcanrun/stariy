@@ -1,0 +1,15 @@
+.header {
+  box-shadow: 0 1px 0 0 #cecece;
+  padding: 20px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.headerMenuLogo {
+  font-size: 25px;
+  cursor: pointer;
+}
+.headerTitle {
+  padding: 0 0 0 10px;
+}
