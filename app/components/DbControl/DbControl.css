@@ -39,3 +39,56 @@
 .dbControlItem span {
   color: #9e9e9e;
 }
+
+.btn {
+  appearance: none;
+  background: #fff;
+  border: 0.05rem solid #5755d9;
+  border-radius: 0.1rem;
+  color: #5755d9;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.8rem;
+  height: 1.8rem;
+  line-height: 1.2rem;
+  outline: 0;
+  padding: 0.25rem 0.4rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, border 0.2s, box-shadow 0.2s, color 0.2s;
+
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: #f1f1fc;
+  border-color: #4b48d6;
+  text-decoration: none;
+}
+.btn:active {
+  background: #4b48d6;
+  border-color: #3634d2;
+  color: #fff;
+  text-decoration: none;
+}
+.btnGreen {
+  border: 0.05rem solid #d95555;
+  color: #d95555;
+}
+.btnGreen:hover {
+  background: #f1f1fc;
+  border-color: #d64848;
+  text-decoration: none;
+}
+.btnGreen:active {
+  background: #d64848;
+  border-color: #d23434;
+  color: #fff;
+}
+.footer {
+  display: flex;
+}
+.footer button {
+  width: 100%;
+}

@@ -50,11 +50,12 @@ export class DbControl extends React.Component<PROPS, STATE> {
       case 'x':
         this.setState({ x: val });
         break;
-      case 'l':
-        this.setState({ l: val });
-        break;
+
       case 'y':
         this.setState({ y: val });
+        break;
+      case 'l':
+        this.setState({ l: val });
         break;
       default:
         console.log('---?---DbContol undefined input type');
@@ -63,7 +64,6 @@ export class DbControl extends React.Component<PROPS, STATE> {
   };
   send = () => {
     const { abTakeoff, abMiddle, abArrival, plane, x, y, l } = this.state;
-    console.log(abTakeoff, abMiddle, abArrival, plane, x, y, l);
     if (abTakeoff && abMiddle && abArrival && plane && x && y && l) {
       this.setState({ errorInput: false });
       this.props.addNew(abTakeoff, abMiddle, abArrival, plane, x, y, l);
@@ -77,8 +77,15 @@ export class DbControl extends React.Component<PROPS, STATE> {
     const { errorInput } = this.state;
     const footer = (
       <div className={style.footer}>
-        <button onClick={closeModal}>chanel</button>
-        <button onClick={this.send}>ok</button>
+        <button className={style.btn} onClick={closeModal}>
+          chanel
+        </button>
+        <button
+          className={[style.btn, style.btnGreen].join(' ')}
+          onClick={this.send}
+        >
+          ok
+        </button>
       </div>
     );
 
@@ -91,6 +98,18 @@ export class DbControl extends React.Component<PROPS, STATE> {
         unmountOnExit
       >
         <div className={style.dbControl}>
+          <div className={style.dbControlItem}>
+            <span>Модель самолета</span>
+            <input
+              onChange={this.handleChange}
+              data-type="plane"
+              className={[
+                errorInput ? style.dbControlInputError : '',
+                style.dbControlInput
+              ].join(' ')}
+              type="text"
+            />
+          </div>
           <div className={style.dbControlItem}>
             <span>АБ взлета</span>
             <input
@@ -127,18 +146,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
               type="text"
             />
           </div>
-          <div className={style.dbControlItem}>
-            <span>Модели самолетов</span>
-            <input
-              onChange={this.handleChange}
-              data-type="plane"
-              className={[
-                errorInput ? style.dbControlInputError : '',
-                style.dbControlInput
-              ].join(' ')}
-              type="text"
-            />
-          </div>
+
           <div className={style.dbControlItem}>
             <span>X</span>
             <input
@@ -175,6 +183,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
               type="text"
             />
           </div>
+
           {footer}
         </div>
       </CSSTransition>

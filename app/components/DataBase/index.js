@@ -23,7 +23,9 @@ export class DataBase extends React.Component<{}, STATE> {
       this.setState({ allData: message });
     });
   }
-
+  deleteAll = () => {
+    ipcRenderer.send('delete-all');
+  };
   showModal = () => {
     const { isModalVisible } = this.state;
     this.setState({ isModalVisible: !isModalVisible });
@@ -38,10 +40,10 @@ export class DataBase extends React.Component<{}, STATE> {
     l: number
   ) => {
     const data = {
+      plane,
       abTakeoff,
       abMiddle,
       abArrival,
-      plane,
       x,
       y,
       l
@@ -65,26 +67,49 @@ export class DataBase extends React.Component<{}, STATE> {
     );
     const modalControlBlock = (
       <div className={style.modalControlBlock}>
-        <button onClick={this.showModal}>Новая запись</button>
-        <button>Добавить к записи</button>
-        <button>Удалить базу данных</button>
+        <button className={style.btn} onClick={this.showModal}>
+          Новая запись
+        </button>
+        {/*<button className={style.btn}>Добавить к записи</button> */}
+        <button
+          className={[style.btn, style.btnAlert].join(' ')}
+          onClick={this.deleteAll}
+        >
+          Удалить базу данных
+        </button>
       </div>
     );
     return (
       <div className={style.dataBasePage}>
         {modalAddNewValue}
         {modalControlBlock}
-        {allData.map((el, i) => (
-          <div key={i}>
-            <span>{el.abArrival}-</span>
-            <span>{el.abMiddle}-</span>
-            <span>{el.abTakeoff}-</span>
-            <span>{el.plane}-</span>
-            <span>{el.x}-</span>
-            <span>{el.y}-</span>
-            <span>{el.l}-</span>
-          </div>
-        ))}
+
+        <table className={style.table}>
+          <thead>
+            <tr>
+              <th>Модель самолета</th>
+              <th>Авиабаза взлета</th>
+              <th>Авиабаза промежуточной посадки</th>
+              <th>Авиабаза прибытия</th>
+              <th>Длительность полета до промежуточной посадки (X)</th>
+              <th>Длительность полета до авиабазы прибытия (Y)</th>
+              <th>Боевой потеницал самолета(Y)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allData.map((el, i) => (
+              <tr key={i}>
+                <td>{el.plane}</td>
+                <td>{el.abTakeoff}</td>
+                <td>{el.abMiddle}</td>
+                <td>{el.abArrival}</td>
+                <td>{el.x}</td>
+                <td>{el.y}</td>
+                <td>{el.l}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }

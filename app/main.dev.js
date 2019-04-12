@@ -101,10 +101,10 @@ app.on('ready', async () => {
   // eslint-disable-next-line
   new AppUpdater();
 });
-const storage = new DataStore({ name: 'airbases' });
+const storage = new DataStore({ name: 'airplanes' });
 
 ipcMain.on('get-all', (event, message) => {
-  const allData = storage.getAll().airbases;
+  const allData = storage.getAll().airplanes;
   console.log(allData);
 
   mainWindow.webContents.send('all-data', allData);
@@ -114,7 +114,13 @@ ipcMain.on('add-to-bd', (event, message) => {
   console.log('add-to-bd:', message);
 
   storage.add(message);
-  const allData = storage.getAll().airbases;
+  const allData = storage.getAll().airplanes;
+  mainWindow.webContents.send('all-data', allData);
+});
+
+ipcMain.on('delete-all', (event, message) => {
+  storage.deleteAll();
+  const allData = storage.getAll().airplanes;
   mainWindow.webContents.send('all-data', allData);
 });
 
