@@ -11,5 +11,6 @@
   cursor: pointer;
 }
 .headerTitle {
+  text-transform: uppercase;
   padding: 0 0 0 10px;
 }
