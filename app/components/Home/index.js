@@ -6,7 +6,7 @@ import style from './Home.css';
 class Home extends React.Component<{}, {}> {
   render() {
     return (
-      <div>
+      <div className={style.home}>
         <h1>Home</h1>
       </div>
     );
