@@ -1,15 +1,17 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { Home } from '../components';
+import { dbGetAll } from '../actions';
 
-type Props = {};
+const mapStateToProps = (state: Object) => ({
+  allData: state.airplanes.allData,
+  isFetching: state.airplanes.isFetching,
+  error: state.airplanes.error
+});
 
-class HomeContainer extends Component<Props> {
-  props: Props;
-
-  render() {
-    return <Home />;
-  }
-}
-
-export { HomeContainer };
+export const HomeContainer = connect(
+  mapStateToProps,
+  { dbGetAll }
+)(Home);
