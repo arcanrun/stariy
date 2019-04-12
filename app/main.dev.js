@@ -10,10 +10,11 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, webContents } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import DataStore from './DatatStore';
 
 export default class AppUpdater {
   constructor() {
@@ -100,3 +101,10 @@ app.on('ready', async () => {
   // eslint-disable-next-line
   new AppUpdater();
 });
+const storage = new DataStore({ name: 'airplanes' });
+ipcMain.on('get-all', (event, message) => {
+  storage.getAll();
+  mainWindow.webContents.send('all-data');
+});
+
+// console.log(app.getPath('userData'));
