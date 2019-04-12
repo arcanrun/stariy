@@ -34,7 +34,7 @@
 }
 .menuItem:active {
   font-size: 29px;
-  color: #ffffff71;
+  opacity: 0.4;
 }
 .cross {
   cursor: pointer;
