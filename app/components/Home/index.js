@@ -109,17 +109,49 @@ class Home extends React.Component<{}, STATE> {
 
     return (
       <div className={style.home}>
+        <div className={style.twoColumns}>
+          <div className={style.inputContainer}>
+            <div>Время получения приказа</div>
+            <input
+              className={style.input}
+              type="datetime-local"
+              placeholder="Type..."
+            />
+          </div>
+          <div className={style.inputContainer}>
+            <div>Время взлета самолетов</div>
+            <input
+              className={style.input}
+              type="datetime-local"
+              placeholder="Type..."
+            />
+          </div>
+        </div>
+
         <div>
           <span>АБ Взлета</span>
           <Select
             options={optionsAbTakeoffs}
             onChange={this.handleInputChangeAbTakeoff}
           />
-          <span>Самолет</span>
-          <Select
-            onChange={this.handleInputChangePlane}
-            options={optionsPlanes}
-          />
+          <div className={style.twoColumns}>
+            <div className={style.inputContainer}>
+              <span>Самолет</span>
+              <Select
+                onChange={this.handleInputChangePlane}
+                options={optionsPlanes}
+              />
+            </div>
+            <div className={style.inputContainer}>
+              <div>Количество самолетов</div>
+              <input
+                className={style.input}
+                type="text"
+                placeholder="Type..."
+              />
+            </div>
+          </div>
+
           <span>АБ прибытия</span>
           <Select
             onChange={this.handleInputChangeAbArrival}

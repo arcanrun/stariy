@@ -1,3 +1,33 @@
 .home {
   padding: 90px 10px 0px 10px;
 }
+.input {
+  width: 100%;
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+  font-size: 15px;
+  min-height: 38px;
+  outline: 0 !important;
+  position: relative;
+  transition: all 100ms;
+  box-sizing: border-box;
+
+  padding-left: 10px;
+}
+.input:focus {
+  border-color: #2277ff;
+  border: 2px solid #2277ff;
+}
+.twoColumns {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+.inputContainer {
+  width: 100%;
+}
