@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { CSSTransition } from 'react-transition-group';
 
 import style from './Home.css';
+import { ResBlock } from '../index';
 
 type STATE = {
   allData: Array<any>,
@@ -14,11 +15,12 @@ type STATE = {
   orderTimeVal: ?string,
   flyTimeVal: ?string,
   abTakeoffVal: ?string,
-  jetVal: ?string,
+  jetVal: ?Object,
   countJetVal: ?string,
   abArrivalVal: ?string,
   isMinimalDataComplete: boolean,
-  isCalced: boolean
+  isCalced: boolean,
+  calculations: ?Object
 };
 
 class Home extends React.Component<{}, STATE> {
@@ -35,7 +37,8 @@ class Home extends React.Component<{}, STATE> {
     countJetVal: undefined,
     abArrivalVal: undefined,
     isMinimalDataComplete: false,
-    isCalced: false
+    isCalced: false,
+    calculations: undefined
   };
 
   componentDidMount() {
@@ -132,7 +135,14 @@ class Home extends React.Component<{}, STATE> {
     this.setState({ abArrivalVal: e.value }, () => this.checkOnComplete());
   };
   handleCalc = () => {
-    console.log(this.state);
+    const { jetVal } = this.state;
+    let newCalc = {};
+    const plane = {
+      plane: jetVal.value,
+      image: jetVal.image
+    };
+
+    this.setState({ isCalced: true, calculations: plane });
   };
 
   checkOnComplete = () => {
@@ -142,7 +152,8 @@ class Home extends React.Component<{}, STATE> {
       abTakeoffVal,
       jetVal,
       countJetVal,
-      abArrivalVal
+      abArrivalVal,
+      calculations
     } = this.state;
     if (
       (orderTimeVal || flyTimeVal) &&
@@ -150,7 +161,7 @@ class Home extends React.Component<{}, STATE> {
     ) {
       this.setState({ isMinimalDataComplete: true });
     } else {
-      this.setState({ isMinimalDataComplete: false });
+      this.setState({ isMinimalDataComplete: false, isCalced: false });
     }
   };
 
@@ -161,7 +172,8 @@ class Home extends React.Component<{}, STATE> {
       optionsAbArrivals,
       optionsAbMiddles,
       isMinimalDataComplete,
-      isCalced
+      isCalced,
+      calculations
     } = this.state;
     console.log('[ALL STATE]:', this.state);
     const optionsAbTakeoffs = allData.map(el => ({
@@ -185,7 +197,7 @@ class Home extends React.Component<{}, STATE> {
           <div className={style.twoColumns}>
             <div className={style.inputContainer}>
               <div className={style.inputTitle}>
-                <i class="far fa-clock" />
+                <i className="far fa-clock" />
                 <div>Время получения приказа</div>
               </div>
               <input
@@ -197,7 +209,7 @@ class Home extends React.Component<{}, STATE> {
             </div>
             <div className={style.inputContainer}>
               <div className={style.inputTitle}>
-                <i class="far fa-clock" />
+                <i className="far fa-clock" />
                 Время взлета самолетов
               </div>
               <input
@@ -212,7 +224,7 @@ class Home extends React.Component<{}, STATE> {
           <div>
             <div className={style.inputContainer}>
               <div className={style.inputTitle}>
-                <i class="fas fa-plane-departure" />
+                <i className="fas fa-plane-departure" />
                 <span>АБ Взлета</span>
               </div>
               <Select
@@ -223,7 +235,7 @@ class Home extends React.Component<{}, STATE> {
             <div className={style.twoColumns}>
               <div className={style.inputContainer}>
                 <div className={style.inputTitle}>
-                  <i class="fas fa-fighter-jet" />
+                  <i className="fas fa-fighter-jet" />
                   <span>Самолет</span>
                 </div>
                 <Select
@@ -233,7 +245,7 @@ class Home extends React.Component<{}, STATE> {
               </div>
               <div className={style.inputContainer}>
                 <div className={style.inputTitle}>
-                  <i class="fas fa-sort-numeric-down" />
+                  <i className="fas fa-sort-numeric-down" />
                   <div>Количество самолетов</div>
                 </div>
                 <input
@@ -246,7 +258,7 @@ class Home extends React.Component<{}, STATE> {
             </div>
             <div className={style.inputContainer}>
               <div className={style.inputTitle}>
-                <i class="fas fa-plane-arrival" />
+                <i className="fas fa-plane-arrival" />
                 <span>АБ прибытия</span>
               </div>
               <Select
@@ -267,13 +279,15 @@ class Home extends React.Component<{}, STATE> {
           </CSSTransition>
         </div>
         <CSSTransition
-          in={true}
+          in={isCalced}
           unmountOnExit
           mountOnEnter
           classNames={'alert'}
           timeout={300}
         >
-          <div className={style.home}>calc</div>
+          <div className={style.home}>
+            <ResBlock calc={calculations} />
+          </div>
         </CSSTransition>
       </div>
     );
