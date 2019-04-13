@@ -2,6 +2,7 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import Select from 'react-select';
+import Map from 'react-offline-map';
 
 import style from './Home.css';
 
@@ -63,6 +64,11 @@ class Home extends React.Component<PROPS, STATE> {
     const optionsPlanes = planes.map(el => ({ value: el, label: el }));
     const optionsAbArrivals = abArrivals.map(el => ({ value: el, label: el }));
     const optionsAbTakeoffs = abTakeoffs.map(el => ({ value: el, label: el }));
+    const circles = [
+      { lat: 32.1322, lng: -116.3452, r: 0.1, fill: 'red' },
+      { lat: 32.1022, lng: -115.7452, r: 0.1, fill: 'red' },
+      { lat: 32.2722, lng: -115.8252, r: 0.05, fill: 'red' }
+    ];
     return (
       <div className={style.home}>
         <span>Самолет</span>
@@ -71,6 +77,9 @@ class Home extends React.Component<PROPS, STATE> {
         <Select options={optionsAbArrivals} />
         <span>АБ Взлета</span>
         <Select options={optionsAbTakeoffs} />
+        <div>
+          <Map width={800} height={600} circles={circles} />
+        </div>
       </div>
     );
   }

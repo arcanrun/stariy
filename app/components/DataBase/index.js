@@ -87,13 +87,12 @@ export class DataBase extends React.Component<{}, STATE> {
         <table className={style.table}>
           <thead>
             <tr>
-              <th>Модель самолета</th>
               <th>Авиабаза взлета</th>
               <th>Авиабаза промежуточной посадки</th>
-              <th>Авиабаза прибытия</th>
               <th>X</th>
+              <th>Авиабаза прибытия</th>
               <th>Y</th>
-              <th>L</th>
+              <th>Модели самолетов</th>
             </tr>
           </thead>
           <tbody>

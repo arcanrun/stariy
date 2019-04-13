@@ -4,7 +4,6 @@
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
-  width: 300px;
   padding: 40px;
   border-radius: 5px;
 }
@@ -91,4 +90,13 @@
 }
 .footer button {
   width: 100%;
+}
+.avaiaAndPlane {
+  display: flex;
+}
+.aviaBaseControl {
+  padding: 0 20 20 20px;
+}
+.planeControl {
+  padding: 0 20 20 20px;
 }
