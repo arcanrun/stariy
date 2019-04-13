@@ -161,8 +161,8 @@ class Home extends React.Component<{}, STATE> {
     } = this.state;
     let newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
-      orderTime: orderTimeVal,
-      flyTime: flyTimeVal,
+      orderTime: !orderTimeVal ? flyTimeVal - 2 : orderTimeVal,
+      flyTime: !flyTimeVal ? orderTimeVal + 2 : flyTimeVal,
       abMiddle: {
         name: optionsAbMiddles[0].value,
         x: optionsAbMiddles[0].x
@@ -172,7 +172,7 @@ class Home extends React.Component<{}, STATE> {
       combatPotential: countJetVal * jetVal.l,
       duration: optionsAbArrivals[0].y
     };
-    console.log('calc--->',newCalc)
+    console.log('calc--->', newCalc);
 
     // this.setState({ isCalced: true, calculations: newCalc });
   };
