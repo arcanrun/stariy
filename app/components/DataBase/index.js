@@ -85,55 +85,59 @@ export class DataBase extends React.Component<{}, STATE> {
         </button>
       </div>
     );
+    const wholeTable = (
+      <table className={style.table}>
+        <thead>
+          <tr>
+            <th>Авиабаза взлета</th>
+            <th>Авиабаза промежуточной посадки</th>
+            <th>X</th>
+            <th>Авиабаза прибытия</th>
+            <th>Y</th>
+            <th>Модели самолетов</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allData.map((el, i) => (
+            <tr key={i}>
+              <td>{el.abTakeoff}</td>
+              <td>{el.abMiddle}</td>
+              <td>{el.x}</td>
+              <td>{el.abArrival}</td>
+              <td>{el.y}</td>
+              <td>
+                {el.plane.map((plane, index) => (
+                  <div className={style.tableColumnPlane} key={index}>
+                    <div>
+                      <div>
+                        <b>{plane.plane}</b>
+                      </div>
+                      <div>
+                        <b>L:</b>
+                        {plane.l}
+                      </div>
+                    </div>
+
+                    <img
+                      className={style.planeImg}
+                      src={plane.image}
+                      alt="img-of-plane"
+                    />
+                  </div>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
     return (
       <div className={style.dataBasePage}>
         {modalAddNewValue}
-        {modalControlBlock}
-
-        <table className={style.table}>
-          <thead>
-            <tr>
-              <th>Авиабаза взлета</th>
-              <th>Авиабаза промежуточной посадки</th>
-              <th>X</th>
-              <th>Авиабаза прибытия</th>
-              <th>Y</th>
-              <th>Модели самолетов</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allData.map((el, i) => (
-              <tr key={i}>
-                <td>{el.abTakeoff}</td>
-                <td>{el.abMiddle}</td>
-                <td>{el.x}</td>
-                <td>{el.abArrival}</td>
-                <td>{el.y}</td>
-                <td>
-                  {el.plane.map((plane, index) => (
-                    <div className={style.tableColumnPlane} key={index}>
-                      <div>
-                        <div>
-                          <b>{plane.plane}</b>
-                        </div>
-                        <div>
-                          <b>L:</b>
-                          {plane.l}
-                        </div>
-                      </div>
-
-                      <img
-                        className={style.planeImg}
-                        src={plane.image}
-                        alt="img-of-plane"
-                      />
-                    </div>
-                  ))}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={style.tableContainer}>
+          {modalControlBlock}
+          {wholeTable}
+        </div>
       </div>
     );
   }

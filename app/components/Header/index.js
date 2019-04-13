@@ -24,6 +24,7 @@ const Header = ({ toggleMenu, page }: PROPS) => {
   return (
     <div className={style.header}>
       <i
+        style={{ color: '#2277ff' }}
         onClick={toggleMenu}
         className={[style.headerMenuLogo, 'fas', 'fa-bars'].join(' ')}
       />
