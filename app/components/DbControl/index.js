@@ -1,6 +1,7 @@
 //@flow
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import fs from 'fs';
 
 import style from './DbControl.css';
 
@@ -38,6 +39,8 @@ export class DbControl extends React.Component<PROPS, STATE> {
     errorInputPlane: false
   };
   handleChange = (e: any) => {
+    const target = e.target;
+    console.log(target);
     const type = e.target.dataset.type;
     const val = e.target.value;
     switch (type) {
@@ -65,7 +68,11 @@ export class DbControl extends React.Component<PROPS, STATE> {
         this.setState({ l: val });
         break;
       case 'image':
-        this.setState({ image: val });
+        const path = target.files[0].path;
+        console.log('>>>>>>>', path);
+        // const data = fs.readFileSync(val);
+        // console.log('Synchronous read: ' + data.toString());
+        this.setState({ image: path });
         break;
       default:
         console.log('---?---DbContol undefined input type');
