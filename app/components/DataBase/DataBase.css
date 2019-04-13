@@ -68,3 +68,14 @@
   border-color: #d23434;
   color: #fff;
 }
+.planeImg {
+  padding: 5px;
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+}
+.tableColumnPlane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

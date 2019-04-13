@@ -104,15 +104,24 @@ export class DataBase extends React.Component<{}, STATE> {
                 <td>{el.x}</td>
                 <td>{el.abArrival}</td>
                 <td>{el.y}</td>
-                <td className={style.tableColumnPlane}>
+                <td>
                   {el.plane.map((plane, index) => (
-                    <div key={index}>
-                      <b>{plane.plane}</b>
+                    <div className={style.tableColumnPlane} key={index}>
                       <div>
-                        <b>L:</b>
-                        {plane.l}
+                        <div>
+                          <b>{plane.plane}</b>
+                        </div>
+                        <div>
+                          <b>L:</b>
+                          {plane.l}
+                        </div>
                       </div>
-                      <img src={plane.image} alt="img-of-plane" />
+
+                      <img
+                        className={style.planeImg}
+                        src={plane.image}
+                        alt="img-of-plane"
+                      />
                     </div>
                   ))}
                 </td>
