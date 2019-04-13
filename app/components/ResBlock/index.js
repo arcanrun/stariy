@@ -25,29 +25,70 @@ const ResBlock = ({ calc }: PROPS) => {
     <div className={style.table}>
       <div className={style.row}>
         <div className={style.leftColumn}>
-          <i class="far fa-clock" />
+          <i className="far fa-clock" />
           <span>ПОЛУЧЕНИЕ ПРИКАЗА</span>
         </div>
         <div className={style.rightColumn}>
-          <span>right</span>
+          <span>{calc.orderTime}</span>
         </div>
       </div>
       <div className={style.row}>
         <div className={style.leftColumn}>
-          <i class="far fa-clock" />
-          <span>ПОЛУЧЕНИЕ ПРИКАЗА</span>
+          <i className="far fa-clock" />
+          <span>ВЗЛЕТ</span>
         </div>
         <div className={style.rightColumn}>
-          <span>right</span>
+          <span>{calc.flyTime}</span>
         </div>
       </div>
       <div className={style.row}>
         <div className={style.leftColumn}>
-          <i class="far fa-clock" />
-          <span>ПОЛУЧЕНИЕ ПРИКАЗА</span>
+          <i className="fas fa-hand-paper" />
+          <span>ПРОМЕЖУТОЧНАЯ ПОСАДКА на авиабазе</span>
         </div>
         <div className={style.rightColumn}>
-          <span>right</span>
+          <div className={style.multiColumn}>
+            <div>{calc.abMiddle.name}</div>
+            <div>{calc.abMiddle.x}</div>
+          </div>
+        </div>
+      </div>
+      <div className={style.row}>
+        <div className={style.leftColumn}>
+          <i className="fas fa-plane-arrival" />
+          <span>посадки</span>
+        </div>
+        <div className={style.rightColumn}>
+          <span>{calc.landings}</span>
+        </div>
+      </div>
+      <div className={style.row}>
+        <div className={style.leftColumn}>
+          <i className="fas fa-flag-checkered" />
+          <span>Авиабаза ПРИБЫТИЯ</span>
+        </div>
+        <div className={style.rightColumn}>
+          <span className={style.columnSecondColor}>{calc.abArrival}</span>
+        </div>
+      </div>
+      <div className={style.row}>
+        <div className={style.leftColumn}>
+          <i className="fas fa-fist-raised" />
+          <span>ИЗМЕНЕНИЕ боевого потенциала</span>
+        </div>
+        <div className={style.rightColumn}>
+          <span className={style.columnSecondColor}>
+            {calc.combatPotential}
+          </span>
+        </div>
+      </div>
+      <div className={style.row}>
+        <div className={style.leftColumn}>
+          <i className="fas fa-stopwatch" />
+          <span>длительность переброски</span>
+        </div>
+        <div className={style.rightColumn}>
+          <span className={style.columnSecondColor}>{calc.duration}</span>
         </div>
       </div>
     </div>

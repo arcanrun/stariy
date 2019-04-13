@@ -42,7 +42,17 @@ class Home extends React.Component<{}, STATE> {
       plane: {
         plane: 'name-plane',
         image: '/Users/admin/Documents/react-framework-logo (1).jpg'
-      }
+      },
+      orderTime: '14:00 21.02.2018',
+      flyTime: '14:00 21.02.2018',
+      abMiddle: {
+        name: 'FROM DB',
+        x: '43'
+      },
+      landings: 'Tвзл + Y',
+      abArrival: 'SIRIA',
+      combatPotential: '40',
+      duration: 'Y'
     }
   };
 

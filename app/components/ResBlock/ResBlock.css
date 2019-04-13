@@ -52,3 +52,14 @@
   color: #2277ff;
   font-weight: bold;
 }
+.multiColumn {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+}
+.multiColumn div:first-child {
+  color: #0fde8c;
+}
+.columnSecondColor {
+  color: #0fde8c;
+}
