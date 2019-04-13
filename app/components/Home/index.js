@@ -37,8 +37,13 @@ class Home extends React.Component<{}, STATE> {
     countJetVal: undefined,
     abArrivalVal: undefined,
     isMinimalDataComplete: false,
-    isCalced: false,
-    calculations: undefined
+    isCalced: true,
+    calculations: {
+      plane: {
+        plane: 'name-plane',
+        image: '/Users/admin/Documents/react-framework-logo (1).jpg'
+      }
+    }
   };
 
   componentDidMount() {
@@ -279,7 +284,7 @@ class Home extends React.Component<{}, STATE> {
           </CSSTransition>
         </div>
         <CSSTransition
-          in={isCalced}
+          in={true}
           unmountOnExit
           mountOnEnter
           classNames={'alert'}
