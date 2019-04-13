@@ -1,16 +1,15 @@
-//@flow
+// @flow
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ipcRenderer } from 'electron';
 
+import { string } from 'postcss-selector-parser';
 import style from './DataBase.css';
 import { DbControl, ModalOverlay } from '../index';
-import { string } from 'postcss-selector-parser';
-import electronDebug from 'electron-debug';
 
 type STATE = {
   isModalVisible: boolean,
-  allData: Array<any>
+  allData: any
 };
 
 export class DataBase extends React.Component<{}, STATE> {
@@ -18,6 +17,7 @@ export class DataBase extends React.Component<{}, STATE> {
     isModalVisible: false,
     allData: []
   };
+
   componentDidMount() {
     ipcRenderer.send('get-all');
     ipcRenderer.on('all-data', (event, message) => {
@@ -26,13 +26,16 @@ export class DataBase extends React.Component<{}, STATE> {
       );
     });
   }
+
   deleteAll = () => {
     ipcRenderer.send('delete-all');
   };
+
   showModal = () => {
     const { isModalVisible } = this.state;
     this.setState({ isModalVisible: !isModalVisible });
   };
+
   addNew = (
     abTakeoff: string,
     abMiddle: string,
@@ -51,10 +54,12 @@ export class DataBase extends React.Component<{}, STATE> {
     };
     ipcRenderer.send('add-to-bd', data);
   };
+
   closeModal = () => {
     const { isModalVisible } = this.state;
     this.setState({ isModalVisible: !isModalVisible });
   };
+
   render() {
     const { isModalVisible, allData } = this.state;
     const modalAddNewValue = (
@@ -71,7 +76,7 @@ export class DataBase extends React.Component<{}, STATE> {
         <button className={style.btn} onClick={this.showModal}>
           Новая запись
         </button>
-        {/*<button className={style.btn}>Добавить к записи</button> */}
+        {/* <button className={style.btn}>Добавить к записи</button> */}
         <button
           className={[style.btn, style.btnAlert].join(' ')}
           onClick={this.deleteAll}
