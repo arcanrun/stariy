@@ -15,8 +15,8 @@ export default () => (
     <HeaderContainer />
     <MenuContainer />
     <Switch>
-      <Route exact path={routes.DBPAGE} component={HomeContainer} />
-      <Route path={routes.HOME} component={DataBaseContainer} />
+      <Route exact path={routes.HOME} component={HomeContainer} />
+      <Route path={routes.DBPAGE} component={DataBaseContainer} />
     </Switch>
   </App>
 );

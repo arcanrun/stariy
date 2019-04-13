@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import Select from 'react-select';
@@ -6,79 +6,105 @@ import Map from 'react-offline-map';
 
 import style from './Home.css';
 
-type PROPS = {
-  dbGetAll: Function,
-  allData: Array<any>
-};
-
 type STATE = {
   allData: Array<any>,
-  planes: Array<any>,
-  abArrivals: Array<any>,
-  abTakeoffs: []
+  optionsPlanes: Array<any>,
+  optionsAbArrivals: ?Object
 };
 
-class Home extends React.Component<PROPS, STATE> {
+class Home extends React.Component<{}, STATE> {
   state = {
     allData: [],
-    planes: [],
-    abArrivals: [],
-    abTakeoffs: []
+    optionsPlanes: [],
+    optionsAbArrivals: undefined
   };
-  componentDidMount() {
-    this.props.dbGetAll();
-    const { allData } = this.props;
-    this.setState({ allData: allData }, () => this.divider(this.state.allData));
-  }
-  componentDidUpdate(prevProps: Object, prevState: Object) {
-    if (prevProps.allData !== this.props.allData) {
-      const { allData } = this.props;
-      this.setState({ allData: allData }, () =>
-        this.divider(this.state.allData)
-      );
-    }
 
-    if (prevState.planes !== this.state.planes) {
-      this.divider(this.props.allData);
-    }
+  componentDidMount() {
+    const { allData } = this.state;
+    ipcRenderer.send('get-all');
+    ipcRenderer.on('all-data', (event, message) => {
+      console.log('message-->', message);
+      this.setState({ allData: message }, () =>
+        console.log('from state-->', allData)
+      );
+    });
   }
-  divider = (data: Array<any>) => {
-    const { planes, abArrivals, abTakeoffs } = this.state;
-    data.forEach(el => {
-      console.log('====>', el.plane);
-      if (!planes.includes(el.plane))
-        this.setState({ planes: [...planes, el.plane] });
-      if (!abArrivals.includes(el.abArrival))
-        this.setState({ abArrivals: [...abArrivals, el.abArrival] });
-      if (!abTakeoffs.includes(el.abTakeoff))
-        this.setState({ abTakeoffs: [...abTakeoffs, el.abTakeoff] });
+
+  handleInputChangeAbTakeoff = (e: Object) => {
+    const { value } = e;
+    const { allData } = this.state;
+    console.log('active-ab:', value);
+    // this.setState({ abTakeoffActive: value });
+    let activePlanes = [];
+    let activeAbArivals = [];
+    allData.forEach(el => {
+      if (el.abTakeoff === value) {
+        if (activePlanes.length === 0) {
+          activePlanes = el.plane;
+          activeAbArivals = el.abArrival;
+        } else {
+          activePlanes.push(el.plane);
+          activeAbArivals.push(el.abArrival);
+        }
+      }
+    });
+    const optionsPlanes = activePlanes.map(el => ({
+      value: el.plane,
+      label: el.plane,
+      image: el.image
+    }));
+
+    const optionsAbArrivals = [
+      {
+        value: activeAbArivals,
+        label: activeAbArivals
+      }
+    ];
+    console.log('[optionsPlanes]:', optionsPlanes);
+    console.log('[optionsAbArrivals]:', optionsAbArrivals);
+
+    this.setState({
+      optionsPlanes,
+      optionsAbArrivals
     });
   };
-  handleInputChange = (e: Object) => {
+
+  handleInputChangePlane = (e: Object) => {
+    console.log(e.value);
+  };
+
+  handleInputChangeAbArrival = (e: Object) => {
     console.log(e.value);
   };
 
   render() {
-    const { allData, planes, abArrivals, abTakeoffs } = this.state;
+    const { allData, optionsPlanes, optionsAbArrivals } = this.state;
     console.log(allData, '------>', this.state);
-    const optionsPlanes = planes.map(el => ({ value: el, label: el }));
-    const optionsAbArrivals = abArrivals.map(el => ({ value: el, label: el }));
-    const optionsAbTakeoffs = abTakeoffs.map(el => ({ value: el, label: el }));
-    const circles = [
-      { lat: 32.1322, lng: -116.3452, r: 0.1, fill: 'red' },
-      { lat: 32.1022, lng: -115.7452, r: 0.1, fill: 'red' },
-      { lat: 32.2722, lng: -115.8252, r: 0.05, fill: 'red' }
-    ];
+
+    const optionsAbTakeoffs = allData.map(el => ({
+      value: el.abTakeoff,
+      label: el.abTakeoff
+    }));
+    console.log('=========+>', optionsAbTakeoffs);
+
     return (
       <div className={style.home}>
-        <span>Самолет</span>
-        <Select options={optionsPlanes} onChange={this.handleInputChange} />
-        <span>АБ прибытия</span>
-        <Select options={optionsAbArrivals} />
-        <span>АБ Взлета</span>
-        <Select options={optionsAbTakeoffs} />
         <div>
-          <Map width={800} height={600} circles={circles} />
+          <span>АБ Взлета</span>
+          <Select
+            options={optionsAbTakeoffs}
+            onChange={this.handleInputChangeAbTakeoff}
+          />
+          <span>Самолет</span>
+          <Select
+            onChange={this.handleInputChangePlane}
+            options={optionsPlanes}
+          />
+          <span>АБ прибытия</span>
+          <Select
+            onChange={this.handleInputChangeAbArrival}
+            options={optionsAbArrivals}
+          />
         </div>
       </div>
     );
