@@ -96,7 +96,8 @@ class Home extends React.Component<{}, STATE> {
     const optionsPlanes = activePlanes.map(el => ({
       value: el.plane,
       label: el.plane,
-      image: el.image
+      image: el.image,
+      l: el.l
     }));
 
     const optionsAbArrivals = [
@@ -150,14 +151,30 @@ class Home extends React.Component<{}, STATE> {
     this.setState({ abArrivalVal: e.value }, () => this.checkOnComplete());
   };
   handleCalc = () => {
-    const { jetVal } = this.state;
-    let newCalc = {};
-    const plane = {
-      plane: jetVal.value,
-      image: jetVal.image
+    const {
+      jetVal,
+      orderTimeVal,
+      flyTimeVal,
+      optionsAbMiddles,
+      optionsAbArrivals,
+      countJetVal
+    } = this.state;
+    let newCalc = {
+      plane: { plane: jetVal.value, image: jetVal.image },
+      orderTime: orderTimeVal,
+      flyTime: flyTimeVal,
+      abMiddle: {
+        name: optionsAbMiddles[0].value,
+        x: optionsAbMiddles[0].x
+      },
+      landings: flyTimeVal + optionsAbArrivals[0].y,
+      abArrival: optionsAbArrivals[0].value,
+      combatPotential: countJetVal * jetVal.l,
+      duration: optionsAbArrivals[0].y
     };
+    console.log('calc--->',newCalc)
 
-    this.setState({ isCalced: true, calculations: plane });
+    // this.setState({ isCalced: true, calculations: newCalc });
   };
 
   checkOnComplete = () => {
