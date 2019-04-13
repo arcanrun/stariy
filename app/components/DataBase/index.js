@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import style from './DataBase.css';
 import { DbControl, ModalOverlay } from '../index';
 import { string } from 'postcss-selector-parser';
+import electronDebug from 'electron-debug';
 
 type STATE = {
   isModalVisible: boolean,
@@ -20,7 +21,9 @@ export class DataBase extends React.Component<{}, STATE> {
   componentDidMount() {
     ipcRenderer.send('get-all');
     ipcRenderer.on('all-data', (event, message) => {
-      this.setState({ allData: message });
+      this.setState({ allData: message }, () =>
+        console.log('from state-->', this.state.allData)
+      );
     });
   }
   deleteAll = () => {
@@ -36,8 +39,7 @@ export class DataBase extends React.Component<{}, STATE> {
     abArrival: string,
     plane: string,
     x: number,
-    y: number,
-    l: number
+    y: number
   ) => {
     const data = {
       plane,
@@ -45,8 +47,7 @@ export class DataBase extends React.Component<{}, STATE> {
       abMiddle,
       abArrival,
       x,
-      y,
-      l
+      y
     };
     ipcRenderer.send('add-to-bd', data);
   };
@@ -98,13 +99,23 @@ export class DataBase extends React.Component<{}, STATE> {
           <tbody>
             {allData.map((el, i) => (
               <tr key={i}>
-                <td>{el.plane}</td>
                 <td>{el.abTakeoff}</td>
                 <td>{el.abMiddle}</td>
-                <td>{el.abArrival}</td>
                 <td>{el.x}</td>
+                <td>{el.abArrival}</td>
                 <td>{el.y}</td>
-                <td>{el.l}</td>
+                <td>
+                  {el.plane.map((plane, index) => (
+                    <div>
+                      <b>{plane.plane}</b>
+                      <i>
+                        <b>L:</b>
+                        {el.l}
+                      </i>
+                      <img src={el.image} alt="img-of-plane" />
+                    </div>
+                  ))}
+                </td>
               </tr>
             ))}
           </tbody>

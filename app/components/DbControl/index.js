@@ -95,18 +95,10 @@ export class DbControl extends React.Component<PROPS, STATE> {
     }
   };
   send = () => {
-    const { abTakeoff, abMiddle, abArrival, planes, x, y, l } = this.state;
-    if (
-      abTakeoff &&
-      abMiddle &&
-      abArrival &&
-      planes.length !== 0 &&
-      x &&
-      y &&
-      l
-    ) {
+    const { abTakeoff, abMiddle, abArrival, planes, x, y } = this.state;
+    if (abTakeoff && abMiddle && abArrival && planes.length !== 0 && x && y) {
       this.setState({ errorInput: false });
-      this.props.addNew(abTakeoff, abMiddle, abArrival, planes, x, y, l);
+      this.props.addNew(abTakeoff, abMiddle, abArrival, planes, x, y);
       this.props.closeModal();
     } else {
       this.setState({ errorInput: true });

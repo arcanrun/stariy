@@ -7,12 +7,12 @@ class DataStore extends Store {
     super(settings);
 
     // initialize with todos or empty array
-    this.airplanes = this.get('airplanes') || [];
+    this.aviabases = this.get('aviabases') || [];
   }
 
   saveAsJson() {
     // save todos to JSON file
-    this.set('airplanes', this.airplanes);
+    this.set('aviabases', this.aviabases);
 
     // returning 'this' allows method chaining
     return this;
@@ -20,27 +20,27 @@ class DataStore extends Store {
 
   getAll() {
     // set object's todos to todos in JSON file
-    this.airplanes = this.get('airplanes') || [];
+    this.aviabases = this.get('aviabases') || [];
 
     return this;
   }
 
-  add(airplane) {
-    // merge the existing todos with the new todo
-    this.airplanes = [...this.airplanes, airplane];
+  add(aviabase) {
+    const forMerge = [aviabase];
+    this.aviabases = [...this.aviabases, ...forMerge];
 
     return this.saveAsJson();
   }
 
-  deleteItem(airplane) {
+  deleteItem(aviabase) {
     // filter out the target todo
-    this.airplanes = this.airplanes.filter(t => t !== airplane);
+    this.aviabases = this.aviabases.filter(t => t !== aviabase);
 
     return this.saveAsJson();
   }
 
   deleteAll() {
-    this.delete('airplanes');
+    this.delete('aviabases');
     return this;
   }
 }
