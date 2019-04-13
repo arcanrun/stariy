@@ -17,7 +17,8 @@ type STATE = {
   jetVal: ?string,
   countJetVal: ?string,
   abArrivalVal: ?string,
-  isMinimalDataComplete: boolean
+  isMinimalDataComplete: boolean,
+  isCalced: boolean
 };
 
 class Home extends React.Component<{}, STATE> {
@@ -33,7 +34,8 @@ class Home extends React.Component<{}, STATE> {
     jetVal: undefined,
     countJetVal: undefined,
     abArrivalVal: undefined,
-    isMinimalDataComplete: false
+    isMinimalDataComplete: false,
+    isCalced: false
   };
 
   componentDidMount() {
@@ -129,6 +131,9 @@ class Home extends React.Component<{}, STATE> {
     console.log('=======<', e);
     this.setState({ abArrivalVal: e.value }, () => this.checkOnComplete());
   };
+  handleCalc = () => {
+    console.log(this.state);
+  };
 
   checkOnComplete = () => {
     const {
@@ -155,7 +160,8 @@ class Home extends React.Component<{}, STATE> {
       optionsPlanes,
       optionsAbArrivals,
       optionsAbMiddles,
-      isMinimalDataComplete
+      isMinimalDataComplete,
+      isCalced
     } = this.state;
     console.log('[ALL STATE]:', this.state);
     const optionsAbTakeoffs = allData.map(el => ({
@@ -164,7 +170,11 @@ class Home extends React.Component<{}, STATE> {
     }));
     const calcBlck = (
       <div className={style.calcBlck}>
-        <button type="button" className={style.btnCalck}>
+        <button
+          onClick={this.handleCalc}
+          type="button"
+          className={style.btnCalck}
+        >
           рассчет
         </button>
       </div>
@@ -174,7 +184,10 @@ class Home extends React.Component<{}, STATE> {
         <div className={style.home}>
           <div className={style.twoColumns}>
             <div className={style.inputContainer}>
-              <div>Время получения приказа</div>
+              <div className={style.inputTitle}>
+                <i class="far fa-clock" />
+                <div>Время получения приказа</div>
+              </div>
               <input
                 onChange={this.handleOrderTime}
                 className={style.input}
@@ -183,7 +196,10 @@ class Home extends React.Component<{}, STATE> {
               />
             </div>
             <div className={style.inputContainer}>
-              <div>Время взлета самолетов</div>
+              <div className={style.inputTitle}>
+                <i class="far fa-clock" />
+                Время взлета самолетов
+              </div>
               <input
                 onChange={this.handleflyTime}
                 className={style.input}
@@ -195,7 +211,10 @@ class Home extends React.Component<{}, STATE> {
 
           <div>
             <div className={style.inputContainer}>
-              <span>АБ Взлета</span>
+              <div className={style.inputTitle}>
+                <i class="fas fa-plane-departure" />
+                <span>АБ Взлета</span>
+              </div>
               <Select
                 options={optionsAbTakeoffs}
                 onChange={this.handleInputChangeAbTakeoff}
@@ -203,14 +222,20 @@ class Home extends React.Component<{}, STATE> {
             </div>
             <div className={style.twoColumns}>
               <div className={style.inputContainer}>
-                <span>Самолет</span>
+                <div className={style.inputTitle}>
+                  <i class="fas fa-fighter-jet" />
+                  <span>Самолет</span>
+                </div>
                 <Select
                   onChange={this.handleInputChangePlane}
                   options={optionsPlanes}
                 />
               </div>
               <div className={style.inputContainer}>
-                <div>Количество самолетов</div>
+                <div className={style.inputTitle}>
+                  <i class="fas fa-sort-numeric-down" />
+                  <div>Количество самолетов</div>
+                </div>
                 <input
                   onChange={this.hadleCountPlanes}
                   className={style.input}
@@ -220,7 +245,10 @@ class Home extends React.Component<{}, STATE> {
               </div>
             </div>
             <div className={style.inputContainer}>
-              <span>АБ прибытия</span>
+              <div className={style.inputTitle}>
+                <i class="fas fa-plane-arrival" />
+                <span>АБ прибытия</span>
+              </div>
               <Select
                 onChange={this.handleInputChangeAbArrival}
                 options={optionsAbArrivals}
@@ -238,6 +266,15 @@ class Home extends React.Component<{}, STATE> {
             {calcBlck}
           </CSSTransition>
         </div>
+        <CSSTransition
+          in={true}
+          unmountOnExit
+          mountOnEnter
+          classNames={'alert'}
+          timeout={300}
+        >
+          <div className={style.home}>calc</div>
+        </CSSTransition>
       </div>
     );
   }
