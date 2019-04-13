@@ -20,16 +20,22 @@
   position: relative;
   text-transform: uppercase;
   list-style-type: none;
+  flex-flow: column;
+  display: flex;
   font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  top: 30%;
+  margin-left: -70px;
 }
 .menuItem {
   transition: 0.2s;
-  font-size: 25px;
+  font-size: 30px;
   cursor: pointer;
   padding: 10px;
 }
 .menuItem:hover {
-  font-size: 30px;
+  font-size: 35px;
 }
 .menuItem:active {
   font-size: 29px;
