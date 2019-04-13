@@ -9,14 +9,16 @@ import style from './Home.css';
 type STATE = {
   allData: Array<any>,
   optionsPlanes: Array<any>,
-  optionsAbArrivals: ?Object
+  optionsAbArrivals: Array<any>,
+  optionsAbMiddles: Array<any>
 };
 
 class Home extends React.Component<{}, STATE> {
   state = {
     allData: [],
     optionsPlanes: [],
-    optionsAbArrivals: undefined
+    optionsAbArrivals: [],
+    optionsAbMiddles: []
   };
 
   componentDidMount() {
@@ -37,14 +39,22 @@ class Home extends React.Component<{}, STATE> {
     // this.setState({ abTakeoffActive: value });
     let activePlanes = [];
     let activeAbArivals = [];
+    let activeAbArivalsY = [];
+    let activeAbMiddles = [];
+    let activeAbMiddlesX = [];
     allData.forEach(el => {
       if (el.abTakeoff === value) {
         if (activePlanes.length === 0) {
           activePlanes = el.plane;
           activeAbArivals = el.abArrival;
+          activeAbArivalsY = el.y;
+          activeAbMiddles = el.abMiddle;
+          activeAbMiddlesX = el.x;
         } else {
           activePlanes.push(el.plane);
           activeAbArivals.push(el.abArrival);
+          activeAbArivalsY.push(el.y);
+          activeAbMiddlesX.push(el.x);
         }
       }
     });
@@ -57,15 +67,22 @@ class Home extends React.Component<{}, STATE> {
     const optionsAbArrivals = [
       {
         value: activeAbArivals,
-        label: activeAbArivals
+        label: activeAbArivals,
+        y: activeAbArivalsY
       }
     ];
-    console.log('[optionsPlanes]:', optionsPlanes);
-    console.log('[optionsAbArrivals]:', optionsAbArrivals);
+    const optionsAbMiddles = [
+      {
+        value: activeAbMiddles,
+        label: activeAbMiddles,
+        x: activeAbMiddlesX
+      }
+    ];
 
     this.setState({
       optionsPlanes,
-      optionsAbArrivals
+      optionsAbArrivals,
+      optionsAbMiddles
     });
   };
 
@@ -78,14 +95,17 @@ class Home extends React.Component<{}, STATE> {
   };
 
   render() {
-    const { allData, optionsPlanes, optionsAbArrivals } = this.state;
-    console.log(allData, '------>', this.state);
-
+    const {
+      allData,
+      optionsPlanes,
+      optionsAbArrivals,
+      optionsAbMiddles
+    } = this.state;
+    console.log('[-optionsAbMiddles]:', optionsAbMiddles);
     const optionsAbTakeoffs = allData.map(el => ({
       value: el.abTakeoff,
       label: el.abTakeoff
     }));
-    console.log('=========+>', optionsAbTakeoffs);
 
     return (
       <div className={style.home}>
