@@ -189,17 +189,21 @@ class Home extends React.Component<{}, STATE> {
       ? flytTimePlusTwoHours
       : convertDateTimeToString(fromatTojSDateTime(flyTimeVal));
 
-    const flyTimeForLanding = !flyTime
+    const flyTimeForCalc = !flyTime
       ? plusHoursToDate(orderTimeVal, 2)
       : flyTime;
 
     const landings = convertDateTimeToString(
-      plusHoursToDate(flyTimeForLanding, Y)
+      plusHoursToDate(flyTimeForCalc, Y)
     );
 
     const abTakeoff = abTakeoffVal;
-    const middleTime = convertDateTimeToString(plusHoursToDate(flyTimeVal, X));
-    const timeArrival = convertDateTimeToString(plusHoursToDate(flyTimeVal, Y));
+    const middleTime = convertDateTimeToString(
+      plusHoursToDate(flyTimeForCalc, X)
+    );
+    const timeArrival = convertDateTimeToString(
+      plusHoursToDate(flyTimeForCalc, Y)
+    );
     let newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
       orderTime,
