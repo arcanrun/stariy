@@ -121,7 +121,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
           chanel
         </button>
         <button
-          className={[style.btn, style.btnGreen].join(' ')}
+          className={[style.btn, style.btnAlert].join(' ')}
           onClick={this.send}
         >
           ok

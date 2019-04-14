@@ -60,30 +60,33 @@
   vertical-align: middle;
   white-space: nowrap;
 }
+.btn {
+  border: 2px solid #2277ff;
+  text-transform: uppercase;
+  /* padding: 10px 20px 10px 20px; */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #2277ff;
+  background-color: rgba(0, 0, 0, 0);
+  transition: 0.3s;
+  outline: 0;
+}
 .btn:hover {
-  background: #f1f1fc;
-  border-color: #4b48d6;
-  text-decoration: none;
+  color: #ffffff;
+  background-color: #2277ff;
 }
 .btn:active {
-  background: #4b48d6;
-  border-color: #3634d2;
-  color: #fff;
-  text-decoration: none;
+  font-size: 12px;
 }
-.btnGreen {
-  border: 0.05rem solid #d95555;
+
+.btnAlert {
+  border: 2px solid #d95555;
   color: #d95555;
 }
-.btnGreen:hover {
-  background: #f1f1fc;
-  border-color: #d64848;
-  text-decoration: none;
-}
-.btnGreen:active {
-  background: #d64848;
-  border-color: #d23434;
-  color: #fff;
+.btnAlert:hover {
+  color: #ffffff;
+  background-color: #d64848;
 }
 .footer {
   display: flex;
