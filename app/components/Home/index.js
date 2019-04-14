@@ -165,10 +165,10 @@ class Home extends React.Component<{}, STATE> {
       optionsAbArrivals,
       countJetVal
     } = this.state;
-    console.log('DEBUG!!!!!!', optionsAbArrivals[0].y);
     const Y = +optionsAbArrivals[0].y;
     const L = +jetVal.l;
-    const landings = convertDateTimeToString( plusHoursToDate(flyTimeVal, Y));
+
+    plusHoursToDate(flyTimeVal, Y);
 
     const abArrival = optionsAbArrivals[0].value;
     const flytTimePlusTwoHours = convertDateTimeToString(
@@ -178,14 +178,26 @@ class Home extends React.Component<{}, STATE> {
       minusHoursFromDate(flyTimeVal, 2)
     );
 
+    const orderTime = !orderTimeVal
+      ? orderTimeMinusTwoHours
+      : convertDateTimeToString(fromatTojSDateTime(orderTimeVal));
+
+    const flyTime = !flyTimeVal
+      ? flytTimePlusTwoHours
+      : convertDateTimeToString(fromatTojSDateTime(flyTimeVal));
+
+    const flyTimeForLanding = !flyTime
+      ? plusHoursToDate(orderTimeVal, 2)
+      : flyTime;
+
+    const landings = convertDateTimeToString(
+      plusHoursToDate(flyTimeForLanding, Y)
+    );
+
     let newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
-      orderTime: !orderTimeVal
-        ? orderTimeMinusTwoHours
-        : convertDateTimeToString(fromatTojSDateTime(orderTimeVal)),
-      flyTime: !flyTimeVal
-        ? flytTimePlusTwoHours
-        : convertDateTimeToString(fromatTojSDateTime(flyTimeVal)),
+      orderTime,
+      flyTime,
       abMiddle: {
         name: optionsAbMiddles[0].value,
         x: optionsAbMiddles[0].x
@@ -197,7 +209,7 @@ class Home extends React.Component<{}, STATE> {
     };
     console.log('calc--->', newCalc);
 
-    // this.setState({ isCalced: true, calculations: newCalc });
+    this.setState({ isCalced: true, calculations: newCalc });
   };
 
   checkOnComplete = () => {
