@@ -189,7 +189,7 @@ class Home extends React.Component<{}, STATE> {
       ? flytTimePlusTwoHours
       : convertDateTimeToString(fromatTojSDateTime(flyTimeVal));
 
-    const flyTimeForCalc = !flyTime
+    const flyTimeForCalc = !flyTimeVal
       ? plusHoursToDate(orderTimeVal, 2)
       : flyTime;
 
