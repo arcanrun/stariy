@@ -1,7 +1,7 @@
 export const convertDateTimeToString = dateString => {
   const time = dateString.toLocaleTimeString();
   const date = dateString.toLocaleDateString();
-  return `${time} / ${date}`;
+  return `${date} / ${time}`;
 };
 
 export const fromatTojSDateTime = date => {

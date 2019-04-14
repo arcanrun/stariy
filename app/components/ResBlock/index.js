@@ -21,7 +21,7 @@ const ResBlock = ({ calc }: PROPS) => {
       <div className={style.titlePlane}>{calc.plane.plane}</div>
     </div>
   );
-  const tableCal = (
+  const tableCalc = (
     <div className={style.table}>
       <div className={style.row}>
         <div className={style.leftColumn}>
@@ -49,7 +49,7 @@ const ResBlock = ({ calc }: PROPS) => {
         <div className={style.rightColumn}>
           <div className={style.multiColumn}>
             <div>{calc.abMiddle.name}</div>
-            <div>{calc.abMiddle.x}</div>
+            <div>{calc.middleTime}</div>
           </div>
         </div>
       </div>
@@ -93,6 +93,35 @@ const ResBlock = ({ calc }: PROPS) => {
       </div>
     </div>
   );
+
+  const map = (
+    <div className={style.mapContaniner}>
+      <div className={style.toolTipContainer}>
+        <div className={[style.toolTip, style.blueToolTip].join(' ')}>
+          <div>
+            <b>{calc.abTakeoff}</b>
+          </div>
+          <div>{calc.flyTime}</div>
+        </div>
+        <div className={[style.toolTip, style.greenToolTip].join(' ')}>
+          <div>
+            <b>{calc.abMiddle.name}</b>
+          </div>
+          <div>{calc.middleTime}</div>
+        </div>
+        <div className={[style.toolTip, style.purpleToolTip].join(' ')}>
+          <div>
+            <b>{calc.abArrival}</b>
+          </div>
+          <div>{calc.timeArrival}</div>
+        </div>
+      </div>
+      <img
+        src="/Users/admin/Documents/react-framework-logo (1).jpg"
+        alt="map"
+      />
+    </div>
+  );
   return (
     <div className={style.calcContainer}>
       {!calc ? (
@@ -100,7 +129,8 @@ const ResBlock = ({ calc }: PROPS) => {
       ) : (
         <>
           {planeWholeBlc}
-          {tableCal}
+          {tableCalc}
+          {map}
         </>
       )}
     </div>

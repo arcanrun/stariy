@@ -44,7 +44,25 @@ class Home extends React.Component<{}, STATE> {
     abArrivalVal: undefined,
     isMinimalDataComplete: false,
     isCalced: false,
-    calculations: {}
+    calculations: {
+      plane: {
+        plane: 'name-plane',
+        image: '/Users/admin/Documents/react-framework-logo (1).jpg'
+      },
+      orderTime: '14:00 21.02.2018',
+      flyTime: '14:00 21.02.2018',
+      abMiddle: {
+        name: 'PAKISTAN',
+        x: '43'
+      },
+      landings: 'Tвзл + Y',
+      abArrival: 'SIRIA',
+      combatPotential: '40',
+      duration: 'Y',
+      abTakeoff: 'SUDAN',
+      timeArrival: '12312',
+      middleTime: '12312'
+    }
   };
 
   componentDidMount() {
@@ -148,12 +166,12 @@ class Home extends React.Component<{}, STATE> {
       flyTimeVal,
       optionsAbMiddles,
       optionsAbArrivals,
-      countJetVal
+      countJetVal,
+      abTakeoffVal
     } = this.state;
     const Y = +optionsAbArrivals[0].y;
     const L = +jetVal.l;
-
-    plusHoursToDate(flyTimeVal, Y);
+    const X = +optionsAbMiddles[0].x;
 
     const abArrival = optionsAbArrivals[0].value;
     const flytTimePlusTwoHours = convertDateTimeToString(
@@ -179,6 +197,9 @@ class Home extends React.Component<{}, STATE> {
       plusHoursToDate(flyTimeForLanding, Y)
     );
 
+    const abTakeoff = abTakeoffVal;
+    const middleTime = convertDateTimeToString(plusHoursToDate(flyTimeVal, X));
+    const timeArrival = convertDateTimeToString(plusHoursToDate(flyTimeVal, Y));
     let newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
       orderTime,
@@ -190,7 +211,10 @@ class Home extends React.Component<{}, STATE> {
       landings,
       abArrival,
       combatPotential: countJetVal * L,
-      duration: Y
+      duration: Y,
+      abTakeoff,
+      middleTime,
+      timeArrival
     };
     console.log('calc--->', newCalc);
 

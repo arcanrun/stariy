@@ -63,3 +63,46 @@
 .columnSecondColor {
   color: #0fde8c;
 }
+.mapContaniner {
+  margin: auto;
+  width: 600px;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-top: 50px;
+}
+.toolTip {
+  color: #ffffff;
+  transition: 0.2s;
+  background-color: #ffffff;
+
+  margin: 5px;
+  padding: 5px 20px 5px 20px;
+  border-radius: 50px;
+  box-shadow: 1px 6px 19px 1px #0009;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+.blueToolTip {
+  background-color: #2277ff;
+}
+.greenToolTip {
+  background-color: #0fde8c;
+}
+.purpleToolTip {
+  background-color: #7a0fde;
+}
+.toolTipContainer {
+  padding: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-flow: row;
+}
