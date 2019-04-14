@@ -6,6 +6,12 @@ import { CSSTransition } from 'react-transition-group';
 
 import style from './Home.css';
 import { ResBlock } from '../index';
+import {
+  plusHoursToDate,
+  minusHoursFromDate,
+  convertDateTimeToString,
+  fromatTojSDateTime
+} from '../../timeHelper';
 
 type STATE = {
   allData: Array<any>,
@@ -159,18 +165,35 @@ class Home extends React.Component<{}, STATE> {
       optionsAbArrivals,
       countJetVal
     } = this.state;
+    console.log('DEBUG!!!!!!', optionsAbArrivals[0].y);
+    const Y = +optionsAbArrivals[0].y;
+    const L = +jetVal.l;
+    const landings = convertDateTimeToString( plusHoursToDate(flyTimeVal, Y));
+
+    const abArrival = optionsAbArrivals[0].value;
+    const flytTimePlusTwoHours = convertDateTimeToString(
+      plusHoursToDate(orderTimeVal, 2)
+    );
+    const orderTimeMinusTwoHours = convertDateTimeToString(
+      minusHoursFromDate(flyTimeVal, 2)
+    );
+
     let newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
-      orderTime: !orderTimeVal ? flyTimeVal - 2 : orderTimeVal,
-      flyTime: !flyTimeVal ? orderTimeVal + 2 : flyTimeVal,
+      orderTime: !orderTimeVal
+        ? orderTimeMinusTwoHours
+        : convertDateTimeToString(fromatTojSDateTime(orderTimeVal)),
+      flyTime: !flyTimeVal
+        ? flytTimePlusTwoHours
+        : convertDateTimeToString(fromatTojSDateTime(flyTimeVal)),
       abMiddle: {
         name: optionsAbMiddles[0].value,
         x: optionsAbMiddles[0].x
       },
-      landings: flyTimeVal + optionsAbArrivals[0].y,
-      abArrival: optionsAbArrivals[0].value,
-      combatPotential: countJetVal * jetVal.l,
-      duration: optionsAbArrivals[0].y
+      landings,
+      abArrival,
+      combatPotential: countJetVal * L,
+      duration: Y
     };
     console.log('calc--->', newCalc);
 
