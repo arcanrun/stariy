@@ -42,7 +42,8 @@ export class DataBase extends React.Component<{}, STATE> {
     abArrival: string,
     plane: string,
     x: number,
-    y: number
+    y: number,
+    fakeMap: string
   ) => {
     const data = {
       plane,
@@ -50,7 +51,8 @@ export class DataBase extends React.Component<{}, STATE> {
       abMiddle,
       abArrival,
       x,
-      y
+      y,
+      fakeMap
     };
     ipcRenderer.send('add-to-bd', data);
   };

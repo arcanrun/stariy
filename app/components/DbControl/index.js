@@ -16,6 +16,7 @@ type STATE = {
   abArrival: ?string,
   plane: ?string,
   image: ?string,
+  fakeMap: ?string,
   planes: Array<Object>,
   x: ?number,
   y: ?number,
@@ -31,6 +32,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
     abArrival: undefined,
     plane: undefined,
     image: undefined,
+    fakeMap: undefined,
     planes: [],
     x: undefined,
     y: undefined,
@@ -74,14 +76,21 @@ export class DbControl extends React.Component<PROPS, STATE> {
         // console.log('Synchronous read: ' + data.toString());
         this.setState({ image: path });
         break;
+      case 'fake-map':
+        const pathFakeMap = target.files[0].path;
+        console.log('>>>>>>>', pathFakeMap);
+        // const data = fs.readFileSync(val);
+        // console.log('Synchronous read: ' + data.toString());
+        this.setState({ fakeMap: pathFakeMap });
+        break;
       default:
         console.log('---?---DbContol undefined input type');
         break;
     }
   };
   handlePlanes = () => {
-    const { plane, l, image } = this.state;
-    if (plane && l && image) {
+    const { plane, l, image, fakeMap } = this.state;
+    if (plane && l && image && fakeMap) {
       const planeObject = [
         {
           plane,
@@ -102,10 +111,26 @@ export class DbControl extends React.Component<PROPS, STATE> {
     }
   };
   send = () => {
-    const { abTakeoff, abMiddle, abArrival, planes, x, y } = this.state;
-    if (abTakeoff && abMiddle && abArrival && planes.length !== 0 && x && y) {
+    const {
+      abTakeoff,
+      abMiddle,
+      abArrival,
+      planes,
+      x,
+      y,
+      fakeMap
+    } = this.state;
+    if (
+      abTakeoff &&
+      abMiddle &&
+      abArrival &&
+      planes.length !== 0 &&
+      x &&
+      y &&
+      fakeMap
+    ) {
       this.setState({ errorInput: false });
-      this.props.addNew(abTakeoff, abMiddle, abArrival, planes, x, y);
+      this.props.addNew(abTakeoff, abMiddle, abArrival, planes, x, y, fakeMap);
       this.props.closeModal();
     } else {
       this.setState({ errorInput: true });
@@ -242,6 +267,18 @@ export class DbControl extends React.Component<PROPS, STATE> {
             <input
               onChange={this.handleChange}
               data-type="image"
+              className={[
+                errorInputPlane ? style.dbControlInputError : '',
+                style.dbControlInput
+              ].join(' ')}
+              type="file"
+            />
+          </div>
+          <div className={style.dbControlItem}>
+            <span>...</span>
+            <input
+              onChange={this.handleChange}
+              data-type="fake-map"
               className={[
                 errorInputPlane ? style.dbControlInputError : '',
                 style.dbControlInput

@@ -26,7 +26,8 @@ type STATE = {
   abArrivalVal: ?string,
   isMinimalDataComplete: boolean,
   isCalced: boolean,
-  calculations: ?Object
+  calculations: ?Object,
+  optionFakeMap: ?String
 };
 
 class Home extends React.Component<{}, STATE> {
@@ -35,6 +36,7 @@ class Home extends React.Component<{}, STATE> {
     optionsPlanes: [],
     optionsAbArrivals: [],
     optionsAbMiddles: [],
+    optionFakeMap: undefined,
 
     orderTimeVal: undefined,
     flyTimeVal: undefined,
@@ -44,25 +46,8 @@ class Home extends React.Component<{}, STATE> {
     abArrivalVal: undefined,
     isMinimalDataComplete: false,
     isCalced: false,
-    calculations: {
-      plane: {
-        plane: 'name-plane',
-        image: '/Users/admin/Documents/react-framework-logo (1).jpg'
-      },
-      orderTime: '14:00 21.02.2018',
-      flyTime: '14:00 21.02.2018',
-      abMiddle: {
-        name: 'PAKISTAN',
-        x: '43'
-      },
-      landings: 'Tвзл + Y',
-      abArrival: 'SIRIA',
-      combatPotential: '40',
-      duration: 'Y',
-      abTakeoff: 'SUDAN',
-      timeArrival: '12312',
-      middleTime: '12312'
-    }
+
+    calculations: {}
   };
 
   componentDidMount() {
@@ -79,13 +64,15 @@ class Home extends React.Component<{}, STATE> {
   handleInputChangeAbTakeoff = (e: Object) => {
     const { value } = e;
     const { allData } = this.state;
-    console.log('active-ab:', value);
-    // this.setState({ abTakeoffActive: value });
+    console.log('active-ab:', e);
+
+    let activeFakeMap = e.fakeMap;
     let activePlanes = [];
     let activeAbArivals = [];
     let activeAbArivalsY = [];
     let activeAbMiddles = [];
     let activeAbMiddlesX = [];
+
     allData.forEach(el => {
       if (el.abTakeoff === value) {
         if (activePlanes.length === 0) {
@@ -129,7 +116,8 @@ class Home extends React.Component<{}, STATE> {
         optionsPlanes,
         optionsAbArrivals,
         optionsAbMiddles,
-        abTakeoffVal: e.value
+        abTakeoffVal: e.value,
+        optionFakeMap: activeFakeMap
       },
       () => this.checkOnComplete()
     );
@@ -167,7 +155,8 @@ class Home extends React.Component<{}, STATE> {
       optionsAbMiddles,
       optionsAbArrivals,
       countJetVal,
-      abTakeoffVal
+      abTakeoffVal,
+      optionFakeMap
     } = this.state;
     const Y = +optionsAbArrivals[0].y;
     const L = +jetVal.l;
@@ -218,7 +207,8 @@ class Home extends React.Component<{}, STATE> {
       duration: Y,
       abTakeoff,
       middleTime,
-      timeArrival
+      timeArrival,
+      optionFakeMap
     };
     console.log('calc--->', newCalc);
 
@@ -258,7 +248,8 @@ class Home extends React.Component<{}, STATE> {
     console.log('[ALL STATE]:', this.state);
     const optionsAbTakeoffs = allData.map(el => ({
       value: el.abTakeoff,
-      label: el.abTakeoff
+      label: el.abTakeoff,
+      fakeMap: el.fakeMap
     }));
     const calcBlck = (
       <div className={style.calcBlck}>

@@ -116,10 +116,7 @@ const ResBlock = ({ calc }: PROPS) => {
           <div>{calc.timeArrival}</div>
         </div>
       </div>
-      <img
-        src="/Users/admin/Documents/react-framework-logo (1).jpg"
-        alt="map"
-      />
+      <img src={calc.optionFakeMap} alt="map" />
     </div>
   );
   return (
