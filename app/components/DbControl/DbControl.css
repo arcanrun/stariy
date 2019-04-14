@@ -96,10 +96,11 @@
 }
 .avaiaAndPlane {
   display: flex;
+  padding: 20px;
 }
 .aviaBaseControl {
-  padding: 0 20 20 20px;
+  padding: 20px;
 }
 .planeControl {
-  padding: 0 20 20 20px;
+  padding: 20px;
 }

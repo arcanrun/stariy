@@ -134,7 +134,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
       </div>
     );
     const aviaBaseControl = (
-      <div className={style.aviabaseControl}>
+      <div className={style.aviaBaseControl}>
         <div className={style.dbControlItem}>
           <span>АБ взлета</span>
           <input
