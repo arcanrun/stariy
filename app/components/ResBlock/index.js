@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React from 'react';
 
 import style from './ResBlock.css';
@@ -26,7 +26,7 @@ const ResBlock = ({ calc }: PROPS) => {
       <div className={style.row}>
         <div className={style.leftColumn}>
           <i className="far fa-clock" />
-          <span>ПОЛУЧЕНИЕ ПРИКАЗА</span>
+          <span>ВРЕМЯ ПОЛУЧЕНИЕ ПРИКАЗА</span>
         </div>
         <div className={style.rightColumn}>
           <span>{calc.orderTime}</span>
@@ -35,7 +35,7 @@ const ResBlock = ({ calc }: PROPS) => {
       <div className={style.row}>
         <div className={style.leftColumn}>
           <i className="far fa-clock" />
-          <span>ВЗЛЕТ</span>
+          <span>ВРЕМЯ ВЗЛЕТА</span>
         </div>
         <div className={style.rightColumn}>
           <span>{calc.flyTime}</span>
@@ -56,7 +56,7 @@ const ResBlock = ({ calc }: PROPS) => {
       <div className={style.row}>
         <div className={style.leftColumn}>
           <i className="fas fa-plane-arrival" />
-          <span>посадки</span>
+          <span>Время ПРИБЫТИЯ</span>
         </div>
         <div className={style.rightColumn}>
           <span>{calc.landings}</span>
@@ -88,7 +88,7 @@ const ResBlock = ({ calc }: PROPS) => {
           <span>длительность переброски</span>
         </div>
         <div className={style.rightColumn}>
-          <span className={style.columnSecondColor}>{calc.duration}</span>
+          <span className={style.columnSecondColor}>{calc.duration} ч.</span>
         </div>
       </div>
     </div>

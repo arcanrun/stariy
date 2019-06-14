@@ -258,7 +258,7 @@ class Home extends React.Component<{}, STATE> {
           type="button"
           className={style.btnCalck}
         >
-          рассчет
+          расчет
         </button>
       </div>
     );

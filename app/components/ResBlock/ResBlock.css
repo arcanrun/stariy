@@ -1,8 +1,8 @@
 .planeAvatarContainer {
-  width: 250px;
+  max-width: 570px;
   height: 250px;
   overflow: hidden;
-  border-radius: 100%;
+  border-radius: 10px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -10,6 +10,7 @@
 }
 .planeAvatar {
   position: relative;
+  border-radius: 10px;
 }
 .calcContainer {
   display: flex;
