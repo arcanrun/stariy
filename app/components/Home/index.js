@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 // @flow
 import React from 'react';
 import { ipcRenderer } from 'electron';
@@ -66,26 +67,17 @@ class Home extends React.Component<{}, STATE> {
     const { allData } = this.state;
     console.log('active-ab:', e);
 
-    const activeFakeMap = e.fakeMap;
     let activePlanes = [];
     let activeAbArivals = [];
-    let activeAbArivalsY = [];
-    let activeAbMiddles = [];
-    let activeAbMiddlesX = [];
 
     allData.forEach(el => {
       if (el.abTakeoff === value) {
         if (activePlanes.length === 0) {
-          activePlanes = el.plane;
-          activeAbArivals = el.abArrival;
-          activeAbArivalsY = el.y;
-          activeAbMiddles = el.abMiddle;
-          activeAbMiddlesX = el.x;
+          activePlanes = el.planes;
+          activeAbArivals = el.abArrivalArray;
         } else {
           activePlanes.push(el.plane);
           activeAbArivals.push(el.abArrival);
-          activeAbArivalsY.push(el.y);
-          activeAbMiddlesX.push(el.x);
         }
       }
     });
@@ -95,29 +87,20 @@ class Home extends React.Component<{}, STATE> {
       image: el.image,
       l: el.l
     }));
-
-    const optionsAbArrivals = [
-      {
-        value: activeAbArivals,
-        label: activeAbArivals,
-        y: activeAbArivalsY
-      }
-    ];
-    const optionsAbMiddles = [
-      {
-        value: activeAbMiddles,
-        label: activeAbMiddles,
-        x: activeAbMiddlesX
-      }
-    ];
+    const optionsAbArrivals = activeAbArivals.map(el => ({
+      value: el.abArrival,
+      label: el.abArrival,
+      image: el.fakeMap,
+      x: el.x,
+      y: el.y,
+      abMiddle: el.abMiddle
+    }));
 
     this.setState(
       {
+        abTakeoffVal: value,
         optionsPlanes,
-        optionsAbArrivals,
-        optionsAbMiddles,
-        abTakeoffVal: e.value,
-        optionFakeMap: activeFakeMap
+        optionsAbArrivals
       },
       () => this.checkOnComplete()
     );
@@ -125,30 +108,27 @@ class Home extends React.Component<{}, STATE> {
 
   handleOrderTime = (e: Object) => {
     const val = e.target.value;
-    console.log(val);
     this.setState({ orderTimeVal: val }, () => this.checkOnComplete());
   };
 
   handleflyTime = (e: Object) => {
     const val = e.target.value;
-    console.log(val);
     this.setState({ flyTimeVal: val }, () => this.checkOnComplete());
   };
 
   hadleCountPlanes = (e: Object) => {
     const val = e.target.value;
-    console.log(val);
+
+    // this.setState({ countJetVal: val }, () => this.checkOnComplete());
     this.setState({ countJetVal: val }, () => this.checkOnComplete());
   };
 
   handleInputChangePlane = (e: Object) => {
-    console.log(e);
     this.setState({ jetVal: e }, () => this.checkOnComplete());
   };
 
   handleInputChangeAbArrival = (e: Object) => {
-    console.log('=======<', e);
-    this.setState({ abArrivalVal: e.value }, () => this.checkOnComplete());
+    this.setState({ abArrivalVal: e }, () => this.checkOnComplete());
   };
 
   handleCalc = () => {
@@ -161,17 +141,22 @@ class Home extends React.Component<{}, STATE> {
       jetVal,
       orderTimeVal,
       flyTimeVal,
-      optionsAbMiddles,
-      optionsAbArrivals,
       countJetVal,
       abTakeoffVal,
-      optionFakeMap
+      abArrivalVal
     } = this.state;
-    const Y = +optionsAbArrivals[0].y;
+    console.log(
+      '%c CALCK: ',
+      'background: pink; color: white',
+      abArrivalVal,
+      jetVal
+    );
+    const optionFakeMap = abArrivalVal.image;
+    const Y = +abArrivalVal.y;
     const L = +jetVal.l;
-    const X = +optionsAbMiddles[0].x;
+    const X = +abArrivalVal.x;
 
-    const abArrival = optionsAbArrivals[0].value;
+    const abArrival = abArrivalVal.value;
 
     const flytTimePlusTwoHours = convertDateTimeToString(
       plusHoursToDate(orderTimeVal, 2)
@@ -214,8 +199,8 @@ class Home extends React.Component<{}, STATE> {
       orderTime,
       flyTime,
       abMiddle: {
-        name: optionsAbMiddles[0].value,
-        x: optionsAbMiddles[0].x
+        name: abArrivalVal.abMiddle,
+        x: abArrivalVal.x
       },
       landings,
       abArrival,
@@ -237,13 +222,22 @@ class Home extends React.Component<{}, STATE> {
       flyTimeVal,
       abTakeoffVal,
       jetVal,
-      countJetVal,
       abArrivalVal,
-      calculations
+      countJetVal
     } = this.state;
+    console.log(
+      '%c CHECK ON COMPLETE',
+      'background: green; color: white',
+      orderTimeVal,
+      flyTimeVal,
+      abTakeoffVal,
+      jetVal,
+      countJetVal,
+      abArrivalVal
+    );
     if (
       (orderTimeVal || flyTimeVal) &&
-      (abTakeoffVal && jetVal && countJetVal)
+      (abTakeoffVal && jetVal && countJetVal && abArrivalVal)
     ) {
       this.setState({ isMinimalDataComplete: true });
     } else {
@@ -256,7 +250,6 @@ class Home extends React.Component<{}, STATE> {
       allData,
       optionsPlanes,
       optionsAbArrivals,
-      optionsAbMiddles,
       isMinimalDataComplete,
       isCalced,
       calculations
@@ -264,8 +257,7 @@ class Home extends React.Component<{}, STATE> {
     console.log('[ALL STATE]:', this.state);
     const optionsAbTakeoffs = allData.map(el => ({
       value: el.abTakeoff,
-      label: el.abTakeoff,
-      fakeMap: el.fakeMap
+      label: el.abTakeoff
     }));
     const calcBlck = (
       <div className={style.calcBlck}>
