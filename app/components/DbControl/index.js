@@ -1,4 +1,6 @@
-//@flow
+/* eslint-disable react/button-has-type */
+/* eslint-disable import/prefer-default-export */
+// @flow
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import fs from 'fs';
@@ -18,11 +20,13 @@ type STATE = {
   image: ?string,
   fakeMap: ?string,
   planes: Array<Object>,
+  abArrivalArray: Array<Object>,
   x: ?number,
   y: ?number,
   l: ?number,
   errorInput: boolean,
-  errorInputPlane: boolean
+  errorInputPlane: boolean,
+  errorInputAbArival: boolean
 };
 
 export class DbControl extends React.Component<PROPS, STATE> {
@@ -34,16 +38,19 @@ export class DbControl extends React.Component<PROPS, STATE> {
     image: undefined,
     fakeMap: undefined,
     planes: [],
+    abArrivalArray: [],
     x: undefined,
     y: undefined,
     l: undefined,
     errorInput: false,
-    errorInputPlane: false
+    errorInputPlane: false,
+    errorInputAbArival: false
   };
+
   handleChange = (e: any) => {
-    const target = e.target;
+    const { target } = e;
     console.log(target);
-    const type = e.target.dataset.type;
+    const { type } = e.target.dataset;
     const val = e.target.value;
     switch (type) {
       case 'abTakeoff':
@@ -70,7 +77,7 @@ export class DbControl extends React.Component<PROPS, STATE> {
         this.setState({ l: val });
         break;
       case 'image':
-        const path = target.files[0].path;
+        const { path } = target.files[0];
         console.log('>>>>>>>', path);
         // const data = fs.readFileSync(val);
         // console.log('Synchronous read: ' + data.toString());
@@ -84,13 +91,39 @@ export class DbControl extends React.Component<PROPS, STATE> {
         this.setState({ fakeMap: pathFakeMap });
         break;
       default:
-        console.log('---?---DbContol undefined input type');
+        console.log('[DbContol]: undefined input type');
         break;
     }
   };
+
+  handleAbArival = () => {
+    const { fakeMap, abArrival, abMiddle, x, y } = this.state;
+    if (fakeMap && abArrival && x && y && abMiddle) {
+      const planeObject = [
+        {
+          abArrival,
+          fakeMap,
+          abMiddle,
+          x,
+          y
+        }
+      ];
+
+      this.setState(
+        {
+          abArrivalArray: [...this.state.abArrivalArray, ...planeObject],
+          errorInputAbArival: false
+        },
+        () => console.log(this.state.abArrivalArray)
+      );
+    } else {
+      this.setState({ errorInputAbArival: true });
+    }
+  };
+
   handlePlanes = () => {
-    const { plane, l, image, fakeMap } = this.state;
-    if (plane && l && image && fakeMap) {
+    const { plane, l, image } = this.state;
+    if (plane && l && image) {
       const planeObject = [
         {
           plane,
@@ -110,36 +143,32 @@ export class DbControl extends React.Component<PROPS, STATE> {
       this.setState({ errorInputPlane: true });
     }
   };
+
   send = () => {
-    const {
-      abTakeoff,
-      abMiddle,
-      abArrival,
-      planes,
-      x,
-      y,
-      fakeMap
-    } = this.state;
-    if (
-      abTakeoff &&
-      abMiddle &&
-      abArrival &&
-      planes.length !== 0 &&
-      x &&
-      y &&
-      fakeMap
-    ) {
+    const { abTakeoff, abArrivalArray, planes } = this.state;
+    if (abTakeoff && abArrivalArray.length !== 0 && planes.length !== 0) {
       this.setState({ errorInput: false });
-      this.props.addNew(abTakeoff, abMiddle, abArrival, planes, x, y, fakeMap);
+      this.props.addNew(abTakeoff, abArrivalArray, planes);
       this.props.closeModal();
     } else {
       this.setState({ errorInput: true });
     }
   };
+
   render() {
     const { closeModal, isVisible } = this.props;
-    const { errorInput, planes, errorInputPlane, plane, image, l } = this.state;
-    let nameOfPlanes = planes.map(el => el.plane);
+    const {
+      errorInput,
+      planes,
+      abArrivalArray,
+      errorInputPlane,
+      errorInputAbArival,
+      plane,
+      image,
+      l
+    } = this.state;
+    const nameOfPlanes = planes.map(el => el.plane);
+    const nameOfAbArivals = abArrivalArray.map(el => el.abArrival);
     const footer = (
       <div className={style.footer}>
         <button className={style.btn} onClick={closeModal}>
@@ -158,7 +187,79 @@ export class DbControl extends React.Component<PROPS, STATE> {
         <button onClick={this.handlePlanes}>Добавить</button>
       </div>
     );
-    const aviaBaseControl = (
+    const abArivalBtnControl = (
+      <div className={style.planeBtnControl}>
+        <button onClick={this.handleAbArival}>Добавить</button>
+      </div>
+    );
+
+    const aviaBaseControlArival = (
+      <div className={style.aviaBaseControl}>
+        <div className={style.dbControlItem}>
+          <span>АБ прибытия</span>
+          <input
+            onChange={this.handleChange}
+            data-type="abArrival"
+            className={[
+              errorInputAbArival ? style.dbControlInputError : '',
+              style.dbControlInput
+            ].join(' ')}
+            type="text"
+          />
+        </div>
+
+        <div className={style.dbControlItem}>
+          <span>X</span>
+          <input
+            onChange={this.handleChange}
+            data-type="x"
+            className={[
+              errorInputAbArival ? style.dbControlInputError : '',
+              style.dbControlInput
+            ].join(' ')}
+            type="text"
+          />
+        </div>
+        <div className={style.dbControlItem}>
+          <span>Y</span>
+          <input
+            onChange={this.handleChange}
+            data-type="y"
+            className={[
+              errorInputAbArival ? style.dbControlInputError : '',
+              style.dbControlInput
+            ].join(' ')}
+            type="text"
+          />
+        </div>
+        <div className={style.dbControlItem}>
+          <span>АБ промежуточной посадки</span>
+          <input
+            onChange={this.handleChange}
+            data-type="abMiddle"
+            className={[
+              errorInputAbArival ? style.dbControlInputError : '',
+              style.dbControlInput
+            ].join(' ')}
+            type="text"
+          />
+        </div>
+        <div className={style.dbControlItem}>
+          <span>...</span>
+          <input
+            onChange={this.handleChange}
+            data-type="fake-map"
+            className={[
+              errorInputAbArival ? style.dbControlInputError : '',
+              style.dbControlInput
+            ].join(' ')}
+            type="file"
+          />
+        </div>
+        {abArivalBtnControl}
+      </div>
+    );
+    const aviaBaseControlTakeoff = (
       <div className={style.aviaBaseControl}>
         <div className={style.dbControlItem}>
           <span>АБ взлета</span>
@@ -186,47 +287,11 @@ export class DbControl extends React.Component<PROPS, STATE> {
           />
         </div>
         <div className={style.dbControlItem}>
-          <span>АБ промежуточной посадки</span>
+          <span>Авиабазы прибытия</span>
           <input
             onChange={this.handleChange}
-            data-type="abMiddle"
-            className={[
-              errorInput ? style.dbControlInputError : '',
-              style.dbControlInput
-            ].join(' ')}
-            type="text"
-          />
-        </div>
-        <div className={style.dbControlItem}>
-          <span>АБ прибытия</span>
-          <input
-            onChange={this.handleChange}
-            data-type="abArrival"
-            className={[
-              errorInput ? style.dbControlInputError : '',
-              style.dbControlInput
-            ].join(' ')}
-            type="text"
-          />
-        </div>
-
-        <div className={style.dbControlItem}>
-          <span>X</span>
-          <input
-            onChange={this.handleChange}
-            data-type="x"
-            className={[
-              errorInput ? style.dbControlInputError : '',
-              style.dbControlInput
-            ].join(' ')}
-            type="text"
-          />
-        </div>
-        <div className={style.dbControlItem}>
-          <span>Y</span>
-          <input
-            onChange={this.handleChange}
-            data-type="y"
+            value={nameOfAbArivals}
+            data-type="abArrivalArray"
             className={[
               errorInput ? style.dbControlInputError : '',
               style.dbControlInput
@@ -274,18 +339,6 @@ export class DbControl extends React.Component<PROPS, STATE> {
               type="file"
             />
           </div>
-          <div className={style.dbControlItem}>
-            <span>...</span>
-            <input
-              onChange={this.handleChange}
-              data-type="fake-map"
-              className={[
-                errorInputPlane ? style.dbControlInputError : '',
-                style.dbControlInput
-              ].join(' ')}
-              type="file"
-            />
-          </div>
         </div>
         {planeBtnControl}
       </div>
@@ -300,8 +353,9 @@ export class DbControl extends React.Component<PROPS, STATE> {
       >
         <div className={style.dbControl}>
           <div className={style.avaiaAndPlane}>
-            {aviaBaseControl}
+            {aviaBaseControlTakeoff}
             {planeControl}
+            {aviaBaseControlArival}
           </div>
           {footer}
         </div>

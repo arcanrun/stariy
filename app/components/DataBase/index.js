@@ -1,9 +1,10 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable import/prefer-default-export */
 // @flow
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ipcRenderer } from 'electron';
 
-import { string } from 'postcss-selector-parser';
 import style from './DataBase.css';
 import { DbControl, ModalOverlay } from '../index';
 
@@ -38,21 +39,13 @@ export class DataBase extends React.Component<{}, STATE> {
 
   addNew = (
     abTakeoff: string,
-    abMiddle: string,
-    abArrival: string,
-    plane: string,
-    x: number,
-    y: number,
-    fakeMap: string
+    abArrivalArray: Array<Object>,
+    planes: Array<Object>
   ) => {
     const data = {
-      plane,
       abTakeoff,
-      abMiddle,
-      abArrival,
-      x,
-      y,
-      fakeMap
+      abArrivalArray,
+      planes
     };
     ipcRenderer.send('add-to-bd', data);
   };
@@ -92,10 +85,7 @@ export class DataBase extends React.Component<{}, STATE> {
         <thead>
           <tr>
             <th>Авиабаза взлета</th>
-            <th>Авиабаза промежуточной посадки</th>
-            <th>X</th>
             <th>Авиабаза прибытия</th>
-            <th>Y</th>
             <th>Модели самолетов</th>
           </tr>
         </thead>
@@ -103,12 +93,38 @@ export class DataBase extends React.Component<{}, STATE> {
           {allData.map((el, i) => (
             <tr key={i}>
               <td>{el.abTakeoff}</td>
-              <td>{el.abMiddle}</td>
-              <td>{el.x}</td>
-              <td>{el.abArrival}</td>
-              <td>{el.y}</td>
               <td>
-                {el.plane.map((plane, index) => (
+                {el.abArrivalArray.map((ab, index) => (
+                  <div className={style.tableColumnPlane} key={index}>
+                    <div>
+                      <div>
+                        <b>Прибытие:</b>
+                        {ab.abArrival}
+                      </div>
+                      <div>
+                        <b>Промеж:</b>
+                        {ab.abMiddle}
+                      </div>
+                      <div>
+                        <b>X:</b>
+                        {ab.x}
+                      </div>
+                      <div>
+                        <b>Y:</b>
+                        {ab.y}
+                      </div>
+                    </div>
+
+                    <img
+                      className={style.planeImg}
+                      src={ab.fakeMap}
+                      alt="img-of-plane"
+                    />
+                  </div>
+                ))}
+              </td>
+              <td>
+                {el.planes.map((plane, index) => (
                   <div className={style.tableColumnPlane} key={index}>
                     <div>
                       <div>
