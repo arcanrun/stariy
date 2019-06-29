@@ -101,19 +101,19 @@ const ResBlock = ({ calc }: PROPS) => {
           <div>
             <b>{calc.abTakeoff}</b>
           </div>
-          <div>{calc.flyTime}</div>
+          <div>{calc.flyTime.split('/')}</div>
         </div>
         <div className={[style.toolTip, style.greenToolTip].join(' ')}>
           <div>
             <b>{calc.abMiddle.name}</b>
           </div>
-          <div>{calc.middleTime}</div>
+          <div>{calc.middleTime.split('/')}</div>
         </div>
         <div className={[style.toolTip, style.purpleToolTip].join(' ')}>
           <div>
             <b>{calc.abArrival}</b>
           </div>
-          <div>{calc.timeArrival}</div>
+          <div>{calc.timeArrival.split('/')}</div>
         </div>
       </div>
       <img src={calc.optionFakeMap} alt="map" />

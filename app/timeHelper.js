@@ -11,12 +11,30 @@ export const fromatTojSDateTime = date => {
 
 export const plusHoursToDate = (date, hours) => {
   const hoursToMs = hours * 60 * 60 * 1000;
-  const plusTwoHoursForFly = new Date(hoursToMs + Date.parse(date));
+  const mainDateToMs = Date.parse(date);
+
+  const plusTwoHoursForFly = new Date(mainDateToMs + hoursToMs);
+  // console.log(
+  //   '++++plusHoursFromDate===>',
+  //   date,
+  //   mainDateToMs,
+  //   hoursToMs,
+  //   plusTwoHoursForFly
+  // );
+
   return plusTwoHoursForFly;
 };
 export const minusHoursFromDate = (date, hours) => {
   const hoursToMs = hours * 60 * 60 * 1000;
   const mainDateToMs = Date.parse(date);
-  const plusTwoHoursForFly = new Date(mainDateToMs - hoursToMs);
-  return plusTwoHoursForFly;
+
+  const minusTwoHoursForFly = new Date(mainDateToMs - hoursToMs);
+  // console.log(
+  //   '++++minusHoursFromDate===>',
+  //   date,
+  //   mainDateToMs,
+  //   hoursToMs,
+  //   minusTwoHoursForFly
+  // );
+  return minusTwoHoursForFly;
 };

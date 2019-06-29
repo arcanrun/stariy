@@ -90,6 +90,9 @@
   justify-content: center;
   align-items: center;
 }
+.toolTip div:nth-child(2) {
+  text-align: center;
+}
 .blueToolTip {
   background-color: #2277ff;
 }

@@ -27,7 +27,7 @@ type STATE = {
   isMinimalDataComplete: boolean,
   isCalced: boolean,
   calculations: ?Object,
-  optionFakeMap: ?String
+  optionFakeMap: ?ыtring
 };
 
 class Home extends React.Component<{}, STATE> {
@@ -66,7 +66,7 @@ class Home extends React.Component<{}, STATE> {
     const { allData } = this.state;
     console.log('active-ab:', e);
 
-    let activeFakeMap = e.fakeMap;
+    const activeFakeMap = e.fakeMap;
     let activePlanes = [];
     let activeAbArivals = [];
     let activeAbArivalsY = [];
@@ -128,16 +128,19 @@ class Home extends React.Component<{}, STATE> {
     console.log(val);
     this.setState({ orderTimeVal: val }, () => this.checkOnComplete());
   };
+
   handleflyTime = (e: Object) => {
     const val = e.target.value;
     console.log(val);
     this.setState({ flyTimeVal: val }, () => this.checkOnComplete());
   };
+
   hadleCountPlanes = (e: Object) => {
     const val = e.target.value;
     console.log(val);
     this.setState({ countJetVal: val }, () => this.checkOnComplete());
   };
+
   handleInputChangePlane = (e: Object) => {
     console.log(e);
     this.setState({ jetVal: e }, () => this.checkOnComplete());
@@ -147,7 +150,13 @@ class Home extends React.Component<{}, STATE> {
     console.log('=======<', e);
     this.setState({ abArrivalVal: e.value }, () => this.checkOnComplete());
   };
+
   handleCalc = () => {
+    // console.log(
+    //   '--->HANDLE CLCIK',
+    //   this.state.orderTimeVal,
+    //   this.state.flyTimeVal
+    // );
     const {
       jetVal,
       orderTimeVal,
@@ -163,6 +172,7 @@ class Home extends React.Component<{}, STATE> {
     const X = +optionsAbMiddles[0].x;
 
     const abArrival = optionsAbArrivals[0].value;
+
     const flytTimePlusTwoHours = convertDateTimeToString(
       plusHoursToDate(orderTimeVal, 2)
     );
@@ -182,18 +192,24 @@ class Home extends React.Component<{}, STATE> {
       ? plusHoursToDate(orderTimeVal, 2)
       : flyTime;
 
-    const landings = convertDateTimeToString(
-      plusHoursToDate(flyTimeForCalc, Y)
-    );
-
+    let landings = '';
+    let middleTime = '';
+    let timeArrival = '';
     const abTakeoff = abTakeoffVal;
-    const middleTime = convertDateTimeToString(
-      plusHoursToDate(flyTimeForCalc, X)
-    );
-    const timeArrival = convertDateTimeToString(
-      plusHoursToDate(flyTimeForCalc, Y)
-    );
-    let newCalc = {
+    if (!flyTimeVal) {
+      landings = convertDateTimeToString(plusHoursToDate(flyTimeForCalc, Y));
+      middleTime = convertDateTimeToString(plusHoursToDate(flyTimeForCalc, X));
+
+      timeArrival = convertDateTimeToString(plusHoursToDate(flyTimeForCalc, Y));
+    } else {
+      landings = convertDateTimeToString(plusHoursToDate(flyTimeVal, Y));
+      middleTime = convertDateTimeToString(plusHoursToDate(flyTimeVal, X));
+
+      timeArrival = convertDateTimeToString(plusHoursToDate(flyTimeVal, Y));
+    }
+
+    // console.log('!!!!!!====>', middleTime, landings);
+    const newCalc = {
       plane: { plane: jetVal.value, image: jetVal.image },
       orderTime,
       flyTime,
@@ -210,7 +226,7 @@ class Home extends React.Component<{}, STATE> {
       timeArrival,
       optionFakeMap
     };
-    console.log('calc--->', newCalc);
+    console.log('%c calc---> ', 'background: green; color: white', newCalc);
 
     this.setState({ isCalced: true, calculations: newCalc });
   };
@@ -343,7 +359,7 @@ class Home extends React.Component<{}, STATE> {
             in={isMinimalDataComplete}
             unmountOnExit
             mountOnEnter
-            classNames={'alert'}
+            classNames="alert"
             timeout={300}
           >
             {calcBlck}
@@ -353,7 +369,7 @@ class Home extends React.Component<{}, STATE> {
           in={isCalced}
           unmountOnExit
           mountOnEnter
-          classNames={'alert'}
+          classNames="alert"
           timeout={300}
         >
           <div className={style.home}>
